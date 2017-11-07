@@ -61,6 +61,7 @@ You supply two low voltage block signals; one to 1A and one to 2A. The block sig
 ```
 
 By connecting the ringer directly to 1Y and 2Y you now effectively have a -35V DC to +35V DC signal.
+
 STEP 1 - You can program an Arduino to generate two 5V 22Hz block waves 180 degrees out of phase like so:
 
 ```
