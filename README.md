@@ -41,6 +41,7 @@ Når røret løftes, går alle i open.
 * https://nesdunk.dk/?cat=14
 * https://www.sparkfun.com/products/retired/286 (bla. schematic til at få ringeren til at virke ser det ud til!)
 * https://www.sparkfun.com/tutorials/51
+* https://www.stavros.io/posts/irotary-saga/
 
 # Klokke
 
