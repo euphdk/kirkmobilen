@@ -44,7 +44,7 @@ Når røret løftes, går alle i open.
 * <https://www.stavros.io/posts/irotary-saga/>
 * <https://hackaday.com/2019/02/05/this-vintage-phone-goes-cellular/>
 * <https://www.instructables.com/id/TOWA-Phone/>
-* <https://github.com/Trasselfrisyr/SLIC-GSM-rotary-phone/blob/master/SLIC-GSM-rotary-phone.ino> Kode!
+* <https://github.com/Trasselfrisyr/SLIC-GSM-rotary-phone/blob/master/SLIC-GSM-rotary-phone.ino> / <https://hackaday.io/project/18871-cellular-conversion-of-vintage-rotary-phone> Kode!
 
 ## Klokke
 
