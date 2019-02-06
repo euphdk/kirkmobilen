@@ -42,6 +42,7 @@ Når røret løftes, går alle i open.
 * https://www.sparkfun.com/products/retired/286 (bla. schematic til at få ringeren til at virke ser det ud til!)
 * https://www.sparkfun.com/tutorials/51
 * https://www.stavros.io/posts/irotary-saga/
+* https://hackaday.com/2019/02/05/this-vintage-phone-goes-cellular/
 
 # Klokke
 
