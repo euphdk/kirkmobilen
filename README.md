@@ -2,32 +2,32 @@
 
 Mål: At lave en Kirk F68 om til mobil-telefon
 
-# Forbindelser inde i telefonen
+## Forbindelser inde i telefonen
 
-## Drejeskive
+### Drejeskive
 
 * Blå: common
 * Rød: normal closed - open n x nummer man ringer
 * Hvid(gul?): normal open, closed når drejeskiven er i bevægelse
 
-## Telefonstik
+### Telefonstik
 
 * Venstre: Blå (3-L2)
 * Top/Center: Gul (1-J)
 * Højre: Rød (2-L1)
 
-# Telefonrør
+### Telefonrør
 
 * Blå: Common (7-MT)
 * Rød: Højtaler (8-T)
 * Gul: Mikrofon (6-M)
 
-# Klokke
+### Klokke
 
 * Sort: 12
 * Gul: 9
 
-# Kontakt v. rørløft
+### Kontakt v. rørløft
 
 * 9 - 10: normal closed (lidt slidt?)
 * 10 - 3-L2: normal closed
@@ -35,7 +35,7 @@ Mål: At lave en Kirk F68 om til mobil-telefon
 
 Når røret løftes, går alle i open.
 
-# Links
+## Links
 
 * <http://www.instructables.com/id/Interface-a-rotary-phone-dial-to-an-Arduino/>
 * <https://nesdunk.dk/?cat=14>
@@ -46,13 +46,13 @@ Når røret løftes, går alle i open.
 * <https://www.instructables.com/id/TOWA-Phone/>
 * <https://github.com/Trasselfrisyr/SLIC-GSM-rotary-phone/blob/master/SLIC-GSM-rotary-phone.ino> Kode!
 
-# Klokke
+## Klokke
 
 * <https://www.sparkfun.com/tutorials/50> (Få klokken til at virke)
 
 Fra kommentarene:
 
-## SN754410 H bridge explained
+### SN754410 H bridge explained
 You supply two low voltage block signals; one to 1A and one to 2A. The block signals are 180 degrees out of phase. The block signals are relative to GND. By supplying a large voltage on VCC2, outputs 1Y and 2Y will provide a high voltage symmetrical block wave like so:
 ```
 1A: _|¯¯¯|___|¯¯¯|___|¯¯¯|_ +5V DC relative to GND
