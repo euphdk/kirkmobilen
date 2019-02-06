@@ -37,16 +37,17 @@ Når røret løftes, går alle i open.
 
 # Links
 
-* http://www.instructables.com/id/Interface-a-rotary-phone-dial-to-an-Arduino/
-* https://nesdunk.dk/?cat=14
-* https://www.sparkfun.com/products/retired/286 (bla. schematic til at få ringeren til at virke ser det ud til!)
-* https://www.sparkfun.com/tutorials/51
-* https://www.stavros.io/posts/irotary-saga/
-* https://hackaday.com/2019/02/05/this-vintage-phone-goes-cellular/
+* <http://www.instructables.com/id/Interface-a-rotary-phone-dial-to-an-Arduino/>
+* <https://nesdunk.dk/?cat=14>
+* <https://www.sparkfun.com/products/retired/286> (bla. schematic til at få ringeren til at virke ser det ud til!)
+* <https://www.sparkfun.com/tutorials/51>
+* <https://www.stavros.io/posts/irotary-saga/>
+* <https://hackaday.com/2019/02/05/this-vintage-phone-goes-cellular/>
+* <https://www.instructables.com/id/TOWA-Phone/>
 
 # Klokke
 
-* https://www.sparkfun.com/tutorials/50 (Få klokken til at virke)
+* <https://www.sparkfun.com/tutorials/50> (Få klokken til at virke)
 
 Fra kommentarene:
 
