@@ -45,6 +45,8 @@ Når røret løftes, går alle i open.
 * <https://hackaday.com/2019/02/05/this-vintage-phone-goes-cellular/>
 * <https://www.instructables.com/id/TOWA-Phone/>
 * <https://github.com/Trasselfrisyr/SLIC-GSM-rotary-phone/blob/master/SLIC-GSM-rotary-phone.ino> / <https://hackaday.io/project/18871-cellular-conversion-of-vintage-rotary-phone> Kode!
+* <https://lastminuteengineers.com/a6-gsm-gprs-module-arduino-tutorial/>
+* <https://github.com/skorokithakis/A6lib>
 
 ## Klokke
 
