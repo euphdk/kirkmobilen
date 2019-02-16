@@ -19,8 +19,8 @@ int nextstate = IDLE;
 
 void setup() {
     Serial.begin(9600);
-    Serial.println("\nI am your phone!");
-	pinMode(PIN_PULSE, INPUT_PULLUP);
+    Serial.println(F("\nI am your phone!"));
+    pinMode(PIN_PULSE, INPUT_PULLUP);
 }
 
 int needToPrint = 0;
