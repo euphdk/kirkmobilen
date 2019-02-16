@@ -1,0 +1,8 @@
+{
+    "sketch": "src/main.ino",
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328old",
+    "port": "/dev/ttyUSB0",
+    "output": "build",
+    "programmer": "AVRISP mkII"
+}
