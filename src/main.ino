@@ -4,8 +4,7 @@
 #define PIN_HOOK        7
 #define PIN_PULSE       8
 
-/* Misc constans */
-#define NUMBER_LENGTH  8  // Assume it is always a Danish number
+/* Misc constants */
 #define ROTARY_HAS_FINISHED_ROTATING_AFTER_MS 100
 #define ASSUME_NUMBER_FINISHED_AFTER_MS 6000
 #define DEBOUNCE_DELAY 10
