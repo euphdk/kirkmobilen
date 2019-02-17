@@ -1,9 +1,13 @@
+#include "Debounce.h"
+
 /* In- and outputs */
+#define PIN_HOOK        7
 #define PIN_PULSE       8
 
 /* Misc constans */
 #define NUMBER_LENGTH  8  // Assume it is always a Danish number
-#define DIAL_HAS_FINISHED_ROTATING_AFTER_MS 100
+#define ROTARY_HAS_FINISHED_ROTATING_AFTER_MS 100
+#define ASSUME_NUMBER_FINISHED_AFTER_MS 6000
 #define DEBOUNCE_DELAY 10
 
 /* States. */
@@ -17,54 +21,70 @@
 int curstate = IDLE;
 int nextstate = IDLE;
 
+
+Debounce Hook(PIN_HOOK, 30); // Needs a bit more debounce than DEBOUNCE_DELAY
+
 void setup() {
     Serial.begin(9600);
     Serial.println(F("\nI am your phone!"));
     pinMode(PIN_PULSE, INPUT_PULLUP);
+    pinMode(PIN_HOOK, INPUT_PULLUP);
 }
+
+int hookState;
 
 int needToPrint = 0;
 int pulseCount;
 int lastPulseState = LOW;
 int truePulseState = LOW;
 long lastPulseChangeTime = 0;
-int lastDigitReceived = 0;
+long lastDigitReceivedTime = 0;
 
 String number = "";
 
 long currentMillis;
 
+void ResetState() {
+    nextstate = IDLE;
+    number = "";
+    lastDigitReceivedTime = 0;
+    needToPrint = 0;
+    pulseCount = 0;
+    lastPulseChangeTime = 0;
+}
 
 void Dial() {
+
+    // I'm not using Debounce here because for some odd reason i just doesn't work :(
+
+    /* Check that we have received some digits in the number, and the rotary dial hasn't been dialed for ASSUME_NUMBER_FINISHED_AFTER_MS, then transistion to ALERTING */
+    if (lastDigitReceivedTime != 0 && (currentMillis - lastDigitReceivedTime) > ASSUME_NUMBER_FINISHED_AFTER_MS) {
+        Serial.println();
+        Serial.print(F("Got the number "));
+        Serial.println(number);
+        nextstate = ALERTING;
+        Serial.println(F("DIAL > ALERTING"));
+        return;
+    }
+
     int pulse = digitalRead(PIN_PULSE);
 
-    if ((currentMillis - lastPulseChangeTime) > DIAL_HAS_FINISHED_ROTATING_AFTER_MS) {
-        // the dial isn’t being dialed, or has just finished being dialed.
+    // the dial isn’t being dialed, or has just finished being dialed.
+    if ((currentMillis - lastPulseChangeTime) > ROTARY_HAS_FINISHED_ROTATING_AFTER_MS) {
+        // if it’s only just finished being dialed, we need to send the number down the serial
+        // line and reset the pulseCount. We mod the pulseCount by 10 because ‘0’ will send 10 pulses.
         if (needToPrint) {
-            // if it’s only just finished being dialed, we need to send the number down the serial
-            // line and reset the pulseCount. We mod the pulseCount by 10 because ‘0’ will send 10 pulses.
             Serial.print(pulseCount % 10, DEC);
             number += (int)pulseCount;
             needToPrint = 0;
             pulseCount = 0;
-
-            // Move on if we have reached 8 digits or "112" has been dialed
-            if (number.length() == NUMBER_LENGTH || number == "112") {
-                Serial.println();
-                Serial.print(F("Got the number "));
-                Serial.print(number);
-                Serial.print(F(", moving to state "));
-                nextstate = ALERTING;
-                Serial.println(nextstate);
-                return;
-            }
+            lastDigitReceivedTime = currentMillis;
         }
     }
 
     if (pulse != lastPulseState) {
-        lastPulseChangeTime = millis();
-        /* Misc constans */
-    }  // Assume it is always a Danish number
+        lastPulseChangeTime = currentMillis;
+    }
 
     if ((currentMillis - lastPulseChangeTime) > DEBOUNCE_DELAY) {
         // debounce - this happens once it’s stablized
@@ -85,24 +105,37 @@ void loop() {
     //Serial.println(curstate);
     currentMillis = millis(); // get snapshot of time for debouncing and timing
 
+    hookState = Hook.read();
+
     switch (curstate) {
 
         case IDLE:
-            Serial.print(F("Idle\n"));
-            nextstate = DIAL;
-            Serial.print(F("Next state: "));
-            Serial.println(nextstate);
+            if (hookState == LOW) {
+                ResetState();
+                nextstate = DIAL;
+                Serial.println(F("IDLE > DIAL"));
+            }
             break;
 
 
         case DIAL:
+            if (hookState == HIGH) {
+                ResetState();
+                Serial.println(F("DIAL > IDLE"));
+                break;
+            }
             Dial();
             break;
     
         case ALERTING:
-            Serial.println(F("ALERTING"));
+            if (hookState == HIGH) {
+                ResetState();
+                Serial.println(F("ALERTING > IDLE"));
+                break;
+            }
+            /*Serial.println(F("ALERTING"));
             Serial.println(number);
-            delay(1000);
+            delay(100);*/
             break;
     
         case CONNECTED:
@@ -118,8 +151,8 @@ void loop() {
             break;
     
         default:
-            Serial.println(F("Ehhh.... should'nt have come here... Assume idle. Perhaps you should consider resetting everything."));
-            nextstate = IDLE;
+            Serial.println(F("Error!"));
+            ResetState();
             break;
     }
 
