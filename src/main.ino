@@ -184,9 +184,12 @@ void loop() {
     
         case RINGING:
             //Serial.println(F("RINGING"));
-            A6c.answer();
-            nextstate = CONNECTED;
-            Serial.println(F("Blocking?"));
+            if (hookState == LOW) {
+                A6c.answer();
+                nextstate = CONNECTED;
+                break;
+            }
+
             break;
     
         default:
