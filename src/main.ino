@@ -1,13 +1,23 @@
 #include "Debounce.h"
+#include "A6lib.h"
+
+extern "C" { 
+    void setup();
+    void loop();
+};
 
 /* In- and outputs */
 #define PIN_HOOK        7
 #define PIN_PULSE       8
 
+#define A6_RX 2
+#define A6_TX 3
+
 /* Misc constants */
 #define ROTARY_HAS_FINISHED_ROTATING_AFTER_MS 100
 #define ASSUME_NUMBER_FINISHED_AFTER_MS 6000
 #define DEBOUNCE_DELAY 10
+#define PRINT_CALL_STATUS_INTERVAL 500
 
 /* States. */
 #define  IDLE       0
@@ -23,11 +33,19 @@ int nextstate = IDLE;
 
 Debounce Hook(PIN_HOOK, 30); // Needs a bit more debounce than DEBOUNCE_DELAY
 
+A6lib A6c(A6_RX, A6_TX);
+
 void setup() {
     Serial.begin(9600);
     Serial.println(F("\nI am your phone!"));
     pinMode(PIN_PULSE, INPUT_PULLUP);
     pinMode(PIN_HOOK, INPUT_PULLUP);
+
+    A6c.blockUntilReady(9600);
+    int sigStrength = A6c.getSignalStrength();
+    Serial.print("Signal strength percentage: ");
+    Serial.println(sigStrength);
+
 }
 
 int hookState;
@@ -38,18 +56,22 @@ int lastPulseState = LOW;
 int truePulseState = LOW;
 long lastPulseChangeTime = 0;
 long lastDigitReceivedTime = 0;
+long lastCheckCallStatusTime = 0;
 
-String number = "";
+String number = "+45";
 
 long currentMillis;
 
+callInfo cinfo;
+
 void ResetState() {
     nextstate = IDLE;
-    number = "";
+    number = "+45";
     lastDigitReceivedTime = 0;
     needToPrint = 0;
     pulseCount = 0;
     lastPulseChangeTime = 0;
+    A6c.hangUp();
 }
 
 void Dial() {
@@ -62,6 +84,7 @@ void Dial() {
         Serial.print(F("Got the number "));
         Serial.println(number);
         nextstate = ALERTING;
+        A6c.dial(number);
         Serial.println(F("DIAL > ALERTING"));
         return;
     }
@@ -113,6 +136,20 @@ void loop() {
                 ResetState();
                 nextstate = DIAL;
                 Serial.println(F("IDLE > DIAL"));
+                break;
+            }
+
+            // Currently only check state when not dialing
+            if ((currentMillis - lastCheckCallStatusTime) > PRINT_CALL_STATUS_INTERVAL) {
+                cinfo = A6c.checkCallStatus();
+        //        Serial.print(F("Call state: "));
+        //        Serial.println(cinfo.state);
+                lastCheckCallStatusTime = currentMillis;
+                if (cinfo.state == CALL_INCOMING) {
+                    nextstate = RINGING;
+                    Serial.println(F("IDLE > RINGING"));
+                    break;
+                }
             }
             break;
 
@@ -132,13 +169,13 @@ void loop() {
                 Serial.println(F("ALERTING > IDLE"));
                 break;
             }
-            /*Serial.println(F("ALERTING"));
-            Serial.println(number);
-            delay(100);*/
             break;
     
         case CONNECTED:
             Serial.println(F("CONNECTED"));
+            delay(1000);
+            ResetState();
+            Serial.println(F("CONNECTED > IDLE"));
             break;
     
         case BUSY:
@@ -146,7 +183,10 @@ void loop() {
             break;
     
         case RINGING:
-            Serial.println(F("RINGING"));
+            //Serial.println(F("RINGING"));
+            A6c.answer();
+            nextstate = CONNECTED;
+            Serial.println(F("Blocking?"));
             break;
     
         default:
