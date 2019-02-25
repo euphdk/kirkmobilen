@@ -1,3 +1,5 @@
+// https://github.com/skorokithakis/A6lib
+
 #ifndef A6lib_h
 #define A6lib_h
 
