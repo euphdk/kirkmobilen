@@ -45,6 +45,7 @@ void setup() {
     int sigStrength = A6c.getSignalStrength();
     Serial.print("Signal strength percentage: ");
     Serial.println(sigStrength);
+    A6c.setVol(8);
 
 }
 
@@ -172,10 +173,12 @@ void loop() {
             break;
     
         case CONNECTED:
-            Serial.println(F("CONNECTED"));
-            delay(1000);
-            ResetState();
-            Serial.println(F("CONNECTED > IDLE"));
+            if (hookState == HIGH) {
+                ResetState();
+                A6c.hangUp();
+                Serial.println(F("CONNECTED > IDLE"));
+                break;
+            }
             break;
     
         case BUSY:
@@ -185,6 +188,7 @@ void loop() {
         case RINGING:
             //Serial.println(F("RINGING"));
             if (hookState == LOW) {
+                Serial.println(F("RINGING > CONNECTED"));
                 A6c.answer();
                 nextstate = CONNECTED;
                 break;
