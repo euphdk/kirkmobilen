@@ -1,7 +1,7 @@
 #include "Debounce.h"
 #include "A6lib.h"
 
-extern "C" { 
+extern "C" {
     void setup();
     void loop();
 };
@@ -163,15 +163,17 @@ void loop() {
             }
             Dial();
             break;
-    
+
         case ALERTING:
             if (hookState == HIGH) {
                 ResetState();
                 Serial.println(F("ALERTING > IDLE"));
                 break;
             }
+
+            // FIXME: Do I need to change state to CONNECTED when remote end pick up phone?
             break;
-    
+
         case CONNECTED:
             if (hookState == HIGH) {
                 ResetState();
@@ -180,11 +182,11 @@ void loop() {
                 break;
             }
             break;
-    
+
         case BUSY:
             Serial.println(F("BUSY"));
             break;
-    
+
         case RINGING:
             //Serial.println(F("RINGING"));
             if (hookState == LOW) {
@@ -195,7 +197,7 @@ void loop() {
             }
 
             break;
-    
+
         default:
             Serial.println(F("Error!"));
             ResetState();
