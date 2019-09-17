@@ -57,7 +57,7 @@ byte A6lib::begin(long baudRate) {
     }
 
     // Factory reset.
-    A6command("AT&F", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
+    // A6command("AT&F", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
 
     // Echo off.
     A6command("ATE0", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
@@ -66,13 +66,13 @@ byte A6lib::begin(long baudRate) {
     enableSpeaker(0);
 
     // Set caller ID on.
-    A6command("AT+CLIP=1", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
+    // A6command("AT+CLIP=1", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
 
     // Set SMS to text mode.
-    A6command("AT+CMGF=1", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
+    // A6command("AT+CMGF=1", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
 
     // Turn SMS indicators off.
-    A6command("AT+CNMI=1,0", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
+    // A6command("AT+CNMI=1,0", "OK", "yy", A6_CMD_TIMEOUT, 2, NULL);
 
     // Set SMS storage to the GSM modem. If this doesn't work for you, try changing the command to:
     // "AT+CPMS=SM,SM,SM"
