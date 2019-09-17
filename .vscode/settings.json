@@ -1,3 +1,6 @@
 {
-    //"C_Cpp.intelliSenseEngineFallback": "Disabled"
+    "terminal.integrated.env.linux": {
+        "PATH": "/home/dsa/.platformio/penv/bin:/home/dsa/.platformio/penv:/home/dsa/bin:/home/dsa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+        "PLATFORMIO_CALLER": "vscode"
+    }
 }
