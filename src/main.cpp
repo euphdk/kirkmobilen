@@ -37,7 +37,7 @@ A6lib A6c(A6_RX, A6_TX);
 
 int hookState;
 
-int needToPrint = 0;
+bool needToPrint = false;
 int pulseCount;
 int lastPulseState = LOW;
 int truePulseState = LOW;
@@ -55,7 +55,7 @@ void ResetState() {
   nextstate = IDLE;
   number = "+45";
   lastDigitReceivedTime = 0;
-  needToPrint = 0;
+  needToPrint = false;
   pulseCount = 0;
   lastPulseChangeTime = 0;
   A6c.hangUp();
@@ -90,7 +90,7 @@ void Dial() {
     if (needToPrint) {
       Serial.print(pulseCount % 10, DEC);
       number += (int)pulseCount;
-      needToPrint = 0;
+      needToPrint = false;
       pulseCount = 0;
       lastDigitReceivedTime = currentMillis;
     }
@@ -109,7 +109,7 @@ void Dial() {
       if (truePulseState == HIGH) {
         // increment the pulseCount of pulses if it’s gone high.
         pulseCount++;
-        needToPrint = 1;  // we’ll need to print this number (once the dial has
+        needToPrint = true;  // we’ll need to print this number (once the dial has
                           // finished rotating)
       }
     }
